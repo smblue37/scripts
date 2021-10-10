@@ -6,6 +6,9 @@ on:
     paths:
       - "linux/**"
 
+env:
+  LATEST_COMMIT: 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,12 +16,12 @@ jobs:
     steps:
     - name: Download and unzip
       run:
-        wget https://github.com/smblue37/linux/archive/33237cef9cc4b294e1fcc6b79b48f4e6e0a19269.zip
-        mv 33237cef9cc4b294e1fcc6b79b48f4e6e0a19269.zip ../../
+        wget https://github.com/smblue37/linux/archive/${GITHUB_SHA}
+        mv ${GITHUB_SHA}.zip ../../
         cd ../..
-        unzip 33237cef9cc4b294e1fcc6b79b48f4e6e0a19269.zip
-        cd scripts
+        unzip ${GITHUB_SHA}.zip
+        cd ./scripts
       
     - name: Build the unzipped source code
       run:
-        ./build-linux.sh ../linux-33237cef9cc4b294e1fcc6b79b48f4e6e0a19269 tinyconfig
+        ./build-linux.sh ../linux-${GITHUB_SHA} tinyconfig
